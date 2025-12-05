@@ -16,16 +16,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
+    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
     <?= $form->field($model, 'category_id')->textInput() ?>
-    
-    <?= $form->field($model, 'imageFile')->fileInput() ?>
-
-    <?php if($model->image): ?>
-        <img src="/<?$model->image ?>" width="150">
-    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

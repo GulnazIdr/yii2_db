@@ -19,7 +19,7 @@ use Yii;
 class Course extends \yii\db\ActiveRecord
 {
 
-    public $imageFile;
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +34,6 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['imageFile'], 'file', 'extensions' => 'png ,jpg, jpeg, webp', 'skipOnEmpty' => true],
             [['description', 'image'], 'default', 'value' => null],
             [['title', 'price', 'category_id'], 'required'],
             [['description'], 'string'],
@@ -42,19 +41,6 @@ class Course extends \yii\db\ActiveRecord
             [['title', 'image'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
-    }
-
-    public function uploadImage(){
-        if($this->imageFile){
-            $path = 'uploads/courses/' . time() . '_' . $this->imageFile->basename . '.'
-            . $this->imageFile->extension;
-
-            if($this->imageFile->saveAs($path)){
-                $this->image=$path;
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
