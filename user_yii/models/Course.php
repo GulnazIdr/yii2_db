@@ -39,6 +39,7 @@ class Course extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['price', 'category_id'], 'integer'],
             [['title', 'image'], 'string', 'max' => 255],
+            [['image'], 'url'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }

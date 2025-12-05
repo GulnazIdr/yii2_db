@@ -28,11 +28,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'description:ntext',
-            'image',
+            [
+                'attribute' => 'image',     
+                'format' => 'html',
+                'value' => function($model){
+                    return $model->image
+                    ? '<img src="'. $model->image .'" style="width:70px; border-radius:6px;">'
+                    : '<span style="color:#888;">нет</span>';
+                },
+            ],
             'price',
             //'category_id',
             [
