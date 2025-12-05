@@ -4,9 +4,11 @@ namespace app\controllers;
 
 use app\models\Course;
 use app\models\CourseSearch;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * CourseController implements the CRUD actions for Course model.
@@ -69,12 +71,14 @@ class CourseController extends Controller
     {
         $model = new Course();
 
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+        if($model->load(Yii::$app->request->post())){
+            $model->imageFile= UploadedFile::getInstance($model, 'imageFile');
+            if($model->validate()){
+                if($model->uploadImage()){
+                    $model->save(false);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
         return $this->render('create', [

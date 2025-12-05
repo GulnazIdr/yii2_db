@@ -28,12 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'title',
             'description:ntext',
+            [
+                'attribute' => 'image',     
+                'format' => 'html',
+                'value' => function($model){
+                    return $model->image
+                    ? Html::img('/' . $model->image, ['width'=>'100'])
+                    : ('нет изображения');
+                },
+            ],
             'price',
-            'category_id',
+            //'category_id',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Course $model, $key, $index, $column) {

@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property string|null $description
+ * @property string|null $image
  * @property int $price
  * @property int $category_id
  *
@@ -18,7 +19,7 @@ use Yii;
 class Course extends \yii\db\ActiveRecord
 {
 
-
+    public $imageFile;
     /**
      * {@inheritdoc}
      */
@@ -33,13 +34,27 @@ class Course extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['description'], 'default', 'value' => null],
+            [['imageFile'], 'file', 'extensions' => 'png ,jpg, jpeg, webp', 'skipOnEmpty' => true],
+            [['description', 'image'], 'default', 'value' => null],
             [['title', 'price', 'category_id'], 'required'],
             [['description'], 'string'],
             [['price', 'category_id'], 'integer'],
-            [['title'], 'string', 'max' => 255],
+            [['title', 'image'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
+    }
+
+    public function uploadImage(){
+        if($this->imageFile){
+            $path = 'uploads/courses/' . time() . '_' . $this->imageFile->basename . '.'
+            . $this->imageFile->extension;
+
+            if($this->imageFile->saveAs($path)){
+                $this->image=$path;
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -51,6 +66,7 @@ class Course extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'description' => 'Description',
+            'image' => 'Image',
             'price' => 'Price',
             'category_id' => 'Category ID',
         ];
