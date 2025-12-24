@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Course;
+use app\models\Book;
 
 /**
- * CourseSearch represents the model behind the search form of `app\models\Course`.
+ * BookSearch represents the model behind the search form of `app\models\Book`.
  */
-class CourseSearch extends Course
+class BookSearch extends Book
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class CourseSearch extends Course
     public function rules()
     {
         return [
-            [['id', 'price', 'category_id'], 'integer'],
-            [['title', 'description', 'image', 'exam'], 'safe'],
+            [['id', 'year'], 'integer'],
+            [['title', 'author'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CourseSearch extends Course
      */
     public function search($params, $formName = null)
     {
-        $query = Course::find();
+        $query = Book::find();
 
         // add conditions that should always apply here
 
@@ -60,14 +60,11 @@ class CourseSearch extends Course
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
-            'category_id' => $this->category_id,
+            'year' => $this->year,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'exam', $this->exam]);
+            ->andFilterWhere(['like', 'author', $this->author]);
 
         return $dataProvider;
     }

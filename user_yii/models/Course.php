@@ -13,6 +13,7 @@ use Yii;
  * @property string|null $image
  * @property int $price
  * @property int $category_id
+ * @property string $exam
  *
  * @property Category $category
  */
@@ -35,11 +36,10 @@ class Course extends \yii\db\ActiveRecord
     {
         return [
             [['description', 'image'], 'default', 'value' => null],
-            [['title', 'price', 'category_id'], 'required'],
+            [['title', 'price', 'category_id', 'exam'], 'required'],
             [['description'], 'string'],
             [['price', 'category_id'], 'integer'],
-            [['title', 'image'], 'string', 'max' => 255],
-            [['image'], 'url'],
+            [['title', 'image', 'exam'], 'string', 'max' => 255],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Category::class, 'targetAttribute' => ['category_id' => 'id']],
         ];
     }
@@ -56,6 +56,7 @@ class Course extends \yii\db\ActiveRecord
             'image' => 'Image',
             'price' => 'Price',
             'category_id' => 'Category ID',
+            'exam' => 'Exam',
         ];
     }
 

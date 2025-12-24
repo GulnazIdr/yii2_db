@@ -1,24 +1,24 @@
 <?php
 
-use app\models\Course;
+use app\models\Book;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var app\models\CourseSearch $searchModel */
+/** @var app\models\BookSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Courses';
+$this->title = 'Books';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="container-fluid text-center" style="--bs-columns: 4; --bs-gap: 5rem;">
+<div class="book-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Course', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Book', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -26,22 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-        'tableOptions' => [
-            'class' => 'table table-striped-columns'
-        ],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
             'title',
-            'description:ntext',
-            'image',
-            'price',
-            'category_id',
-            'exam',
+            'author',
+            'year',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Course $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Book $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],
